@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basketball Game</title>
+</head>
+
+<body onload="canvas.setup()">
+    <canvas id="canvasArea1" style="position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
+    <canvas id="canvasArea2" style="visibility: hidden; position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
+    <p id="score_list"></p>
+
+    <script src="./canvas.js"></script>
+</body>
+
+</html>
+
+<script>
+
+    var board_x, board_y, board_v, ball_x, ball_y, ball_v, timeStep, score, left_limit, right_limit, padding_y, length_board, initial_speed, initial_board_speed, radius_ball, radius_board, precision, flag;
+
+    function get_page_width(){
+        return Math.max(document.documentElement["clientWidth"],document.body["scrollWidth"],document.documentElement["scrollWidth"],document.body["offsetWidth"],document.documentElement["offsetWidth"]);
+    }
+
+    function get_page_height(){
+        return Math.max(document.documentElement["clientHeight"],document.body["scrollHeight"],document.documentElement["scrollHeight"],document.body["offsetHeight"],document.documentElement["offsetHeight"]);
+    }
+
+
+
+    function setup(){
+        left_limit = 0; // Represents the left boundary for the board
+        right_limit = get_page_width(); // Represents the right boundary for the board
+        padding_y = 100; // Represents the upper line
+        length_board = 500; // Length of the "game" board
+        initial_speed = 50; // Ball speed
+        initial_board_speed = 20; // Board speed
+        radius_ball = 5; // Radius of the ball
+        radius_board = 3*radius_ball; // Radius of the board
+        precision = 3; // Closeness parameter for scoring
+        flag = false;
+
+        board_x = right_limit/2;
+        board_y = padding_y;
+
+        
+        ball_x = right_limit/2;
+        ball_y = padding_y + length_board;
+
+        score = 0;
+        timeStep = 10;
+
+        ball_v = initial_speed;
+        board_v = initial_board_speed;
+    }
+
+    function collide_left_wall(){
+        board_v *= -1;
+    }
+
+    function collide_right_wall(){
+        board_v *= -1;
+    }
+
+    function check_scored(){
+        let x_check = (board_x - precision <= ball_x) && (ball_x <= board_x + precision);
+        let y_check = (board_y - precision <= ball_y) && (ball_y <= board_y + precision);
+        return x_check && y_check;
+    }
+
+    canvas.keyDownCallback = function(e){
+        if(e.keyCode == 65){
+            flag = true;
+        }
+    }
+
+    function main(){
+        canvas.clear();
+        canvas.drawRectangle(left_limit,padding_y,(right_limit-left_limit),length_board);
+        canvas.drawCircle(ball_x,ball_y,radius_ball);
+        canvas.drawCircle(board_x,board_y,radius_board);
+        canvas.drawRectangle(board_x,board_y,radius_board);
+
+        board_x -= board_v;
+        if(board_x <= left_limit){
+            collide_left_wall();
+        }
+        if(board_x >= right_limit){
+            collide_right_wall();
+        }
+
+        if(flag == true){
+            ball_y -= ball_v;
+        }
+
+        if(check_scored() == true){
+            score++;
+        }
+
+        if(ball_y < 0){
+            ball_y = padding_y + length_board;
+            flag = false;
+        }
+        document.getElementById("score_list").innerHTML = "Your score is: " + score;
+
+    }
+
+    canvas.mainFunction = main;
+    canvas.setupFunction = setup;
+    canvas.startMain(timeStep);
+
+
+</script>
