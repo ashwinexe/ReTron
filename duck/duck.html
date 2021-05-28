@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duck Hunt Dog!</title>
+    <link rel="stylesheet" href="assets/duck.css">
+    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+    <script>
+        function play() {
+    const startSound = new Audio('assets/audio/start.mp3');
+    startSound.currentTime = 0;
+    startSound.volume = .1
+    startSound.play()
+    }
+    </script>
+</head>
+<body>
+    <div style="display: flex;">
+        <div class="container">
+            <div class="instructions">
+                <h1>Duck Hunt Dog</h1>
+                <h2>How to play</h2>
+                <ul>
+                    <li>1. Click Start</li>
+                </ul>
+            </div>
+        </div>
+        <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
