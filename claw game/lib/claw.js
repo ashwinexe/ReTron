@@ -18,7 +18,7 @@ let center = 0;
 let mover = 0;
 let claw;
 let stopMovingClaw = false
-
+let toy;
 
 function startVideo() {
   handTrack.startVideo(video).then(function (status) {
@@ -47,22 +47,34 @@ app.renderer.backgroundColor = 0x231919;
 
 //loading image into the app
 PIXI.loader
-  .add(
-    /*"assets/bar.png",
-    "assets/back_1.png",
-    "assets/back_2.png",*/
-    "assets/claw.svg")
+  .add(["assets/claw.svg", "assets/plushie.svg"])
   .load(setup);
 
 function setup() {
   claw = new PIXI.Sprite(
     PIXI.loader.resources["assets/claw.svg"].texture);
+  toy = new PIXI.Sprite(
+    PIXI.loader.resources["assets/plushie.svg"].texture);
   app.stage.addChild(claw);
+  app.stage.addChild(toy);
+  placeToy();
   claw.y = -1250;
   claw.scale.x = 0.5;
   claw.scale.y = 0.5;
   claw.vy = 0;
 }
+
+function placeToy(){
+   let col = Math.floor(Math.random()*7);
+   let row = Math.floor(Math.random()*7);
+   let col2 = Math.floor(Math.random() * 31) + 50;
+   let row2 = Math.floor(Math.random() * 31) + 50;
+   toy.x = row * row2;
+   toy.y = col * col2;
+   toy.scale.x = 0.4;
+   toy.scale.y = 0.4;
+}
+
 
 app.stage.addChild(claw);
 //running hand-detection and moving claw with hand
@@ -80,7 +92,7 @@ function runDetection() {
     if (predictions.length != 0 && predictions[0].label === 'closed')
     { if (claw.y <= -760){
     	extractToy();
-      stopMovingClaw = true
+      stopMovingClaw = true;
     }
     }
 
@@ -90,9 +102,11 @@ function runDetection() {
   });
 }
 
+
 function extractToy(){
   console.log(claw.y);
   claw.vy = 20;
   //Applying the velocity values to the claw's position to make it move
   claw.y += claw.vy;
+  //if(hitTestRectangle(claw, toy))
 }
