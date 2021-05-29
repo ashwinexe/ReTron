@@ -6,8 +6,6 @@ body {
     display: block;
     border: 2px solid black;
     cursor: url(images/cursor.png) 14 14, auto !important;
-    background-color: rgb(119, 208, 243);
-
 }
 
 
