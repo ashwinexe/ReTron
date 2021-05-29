@@ -1,0 +1,78 @@
+:root {
+    --clr-dark-bg: #010101;
+}
+
+body {
+  overflow-x: hidden;
+  
+  background-color: var(--clr-dark-bg);
+}
+
+.transition-fade {
+    transition: 0.5s;
+    opacity: 1;
+}
+  
+html.is-animating .transition-fade {
+    opacity: 0;
+    animation: zoomin 3s ease-out;
+    transition: 0.5s;
+}
+
+@keyframes zoomin {
+    0% {transform: scale(1);}
+    25% {transform: scale(1.5);}
+   50% {transform: scale(2);}
+   75% {transform: scale(2.5);}
+   100% {transform: scale(3);}
+}
+
+html.is-leaving .transition-fade {
+    opacity: 0.5;
+    transform: scale(3);
+}
+
+svg {
+    height: 95vh;
+    width: auto;
+}
+
+.landing-svg {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    /* min-width: 500px; */
+}
+
+.play {
+    color: transparent;
+    height: 8rem;
+    position: absolute;
+    bottom: 45px;
+    right: 28%;
+
+}
+
+@media screen and (max-width: 700px) {
+    
+    .play {
+        bottom: 10%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    
+    .play {
+        bottom: 12%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    .play {
+        bottom: 15%;
+    }
+}
