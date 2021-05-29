@@ -47,14 +47,14 @@ app.renderer.backgroundColor = 0x231919;
 
 //loading image into the app
 PIXI.loader
-  .add(["assets/claw.svg", "assets/plushie.svg"])
+  .add(["../assets/claw.svg", "../assets/claw_plushie.svg"])
   .load(setup);
 
 function setup() {
   claw = new PIXI.Sprite(
-    PIXI.loader.resources["assets/claw.svg"].texture);
+    PIXI.loader.resources["../assets/claw.svg"].texture);
   toy = new PIXI.Sprite(
-    PIXI.loader.resources["assets/plushie.svg"].texture);
+    PIXI.loader.resources["../assets/claw_plushie.svg"].texture);
   app.stage.addChild(claw);
   app.stage.addChild(toy);
   placeToy();

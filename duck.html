@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duck Hunt Dog!</title>
-    <link rel="stylesheet" href="assets/duck.css">
+    <link rel="stylesheet" href="styles/duck.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 </head>
 
@@ -29,8 +29,8 @@
         // app.renderer.backgroundColor = 0x77d0f3;
 
         //this imports image as texture (webGL can render textures)
-        const texture_birdR = PIXI.Texture.from('assets/images/duckR.svg');
-        const texture_birdL = PIXI.Texture.from('assets/images/duckL.svg');
+        const texture_birdR = PIXI.Texture.from('assets/duckR.svg');
+        const texture_birdL = PIXI.Texture.from('assets/duckL.svg');
 
         //this saves the texture as sprite image
         const duck_right = new PIXI.Sprite(texture_birdR);
@@ -80,7 +80,7 @@
         //this adds animation
         
         const randomDirection = (Math.random() > 0.5 ? 1.5 : -1.5); //not used
-        //this is the defination of animation
+        //this is the definition of animation
         function animate_duck_right() {
             duck_right.x += 1.5;
             duck_right.y -= 1.5;
