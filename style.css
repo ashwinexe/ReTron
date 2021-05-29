@@ -15,7 +15,16 @@ body {
   
 html.is-animating .transition-fade {
     opacity: 0;
-    transform: scale(5);
+    animation: zoomin 3s ease-out;
+    transition: 0.5s;
+}
+
+@keyframes zoomin {
+    0% {transform: scale(1);}
+    25% {transform: scale(1.5);}
+   50% {transform: scale(2);}
+   75% {transform: scale(2.5);}
+   100% {transform: scale(3);}
 }
 
 html.is-leaving .transition-fade {
@@ -30,7 +39,19 @@ svg {
 
 .landing-svg {
     width: 100%;
-    /* background-color: gray; */
     display: flex;
     justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+   
+}
+
+.play {
+    color: transparent;
+    height: 8rem;
+    position: absolute;
+    bottom: 55px;
+    right: 33%;
+
 }
