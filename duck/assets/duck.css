@@ -1,0 +1,25 @@
+#canvas {
+    border: 2px solid black;
+    cursor: url(images/cursor.png) 14 14, auto;
+    background-color: #77d0f3;
+
+}
+
+
+.container {
+    text-shadow: 1px 1px 7px rgba(150, 150, 150, 0.94);
+    width: 400px;
+    padding: 0 20px;
+}
+
+.container h1 {
+    font-size: 24px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .container .instructions ul li {
+    font-size: 16px;
+    margin: 10px 0;
+    line-height: 120%;
+  }
