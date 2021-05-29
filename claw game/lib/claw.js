@@ -19,6 +19,7 @@ let mover = 0;
 let claw;
 let stopMovingClaw = false
 let toy;
+let closedClaw;
 
 function startVideo() {
   handTrack.startVideo(video).then(function (status) {
@@ -38,7 +39,7 @@ handTrack.load(modelParams).then((lmodel) => {
   model = lmodel;
 });
 
-startVideo();
+// startVideo();
 
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
@@ -50,13 +51,24 @@ PIXI.loader
   .add(["assets/claw.svg", "assets/plushie.svg"])
   .load(setup);
 
+
+
+
 function setup() {
   claw = new PIXI.Sprite(
     PIXI.loader.resources["assets/claw.svg"].texture);
   toy = new PIXI.Sprite(
     PIXI.loader.resources["assets/plushie.svg"].texture);
+  
+  closedClaw = new PIXI.Sprite(
+    PIXI.loader.resources["assets/cc.svg"].texture);
+
+  // claw = new PIXI.Sprite(texture1);
+
+ 
   app.stage.addChild(claw);
   app.stage.addChild(toy);
+  app.stage.addChild(closedClaw);
   placeToy();
   claw.y = -1250;
   claw.scale.x = 0.5;
@@ -69,11 +81,16 @@ function placeToy(){
    let row = Math.floor(Math.random()*7);
    let col2 = Math.floor(Math.random() * 31) + 50;
    let row2 = Math.floor(Math.random() * 31) + 50;
-   toy.x = row * row2;
-   toy.y = col * col2;
+   toy.x = row * row2 + 40;
+   toy.y = col * col2 + 170;
    toy.scale.x = 0.4;
    toy.scale.y = 0.4;
+ 
+  //  claw = new PIXI.Sprite(
+  //   PIXI.loader.resources["assets/close-claw.png"].texture);
 }
+
+
 
 
 app.stage.addChild(claw);
@@ -105,6 +122,7 @@ function runDetection() {
 
 function extractToy(){
   console.log(claw.y);
+  // changeState();
   claw.vy = 20;
   //Applying the velocity values to the claw's position to make it move
   claw.y += claw.vy;
