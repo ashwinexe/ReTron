@@ -44,14 +44,35 @@ svg {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
-   
+    /* min-width: 500px; */
 }
 
 .play {
     color: transparent;
     height: 8rem;
     position: absolute;
-    bottom: 55px;
-    right: 33%;
+    bottom: 45px;
+    right: 28%;
 
+}
+
+@media screen and (max-width: 700px) {
+    
+    .play {
+        bottom: 10%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    
+    .play {
+        bottom: 12%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    .play {
+        bottom: 15%;
+    }
 }
