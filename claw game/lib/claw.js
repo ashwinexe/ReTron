@@ -24,6 +24,8 @@ let texture1;
 let texture2;
 let closedClaw;
 let calc = 0;
+let random = 1;
+let plushies = []
 
 function startVideo() {
   handTrack.startVideo(video).then(function (status) {
@@ -106,7 +108,7 @@ app.renderer.backgroundColor = 0x231919;
 
 //loading image into the app
 PIXI.loader
-  .add(["assets/cc.svg", "assets/plushie.svg", "assets/claw.svg", "assets/back_1.png"])
+  .add(["assets/cc.svg", "assets/plushie.svg", "assets/claw.svg", "assets/back_2.png", "assets/blahaj.svg", "assets/bunny.svg", "assets/teddy.svg"])
   .load(setup);
 
 
@@ -114,15 +116,21 @@ PIXI.loader
 
 function setup() {
 
+   plushies = [
+    "assets/blahaj.svg", "assets/bunny.svg", "assets/teddy.svg"
+  ]
+
+
+
   texture1 = PIXI.Texture.from('assets/claw.svg');
   texture2 = PIXI.Texture.from('assets/cc.svg');
 
   claw = new PIXI.Sprite(
     PIXI.loader.resources["assets/claw.svg"].texture);
   toy = new PIXI.Sprite(
-    PIXI.loader.resources["assets/plushie.svg"].texture);
+    PIXI.loader.resources[plushies[random]].texture);
   const background = new PIXI.Sprite(
-    PIXI.loader.resources["assets/back_1.png"].texture);
+    PIXI.loader.resources["assets/back_2.png"].texture);
   
 
 
@@ -131,7 +139,8 @@ function setup() {
     
     background.position.x = 0;
     background.position.y = 0;
-    
+    background.scale.x = 0.72
+    background.scale.y = 2;
     app.stage.addChild( background );
 
  
@@ -152,11 +161,28 @@ function placeToy(){
    let row2 = Math.floor(Math.random() * 31) + 50;
    toy.x = row * row2 + 40;
    toy.y = col * col2 + 170;
-   toy.scale.x = 0.4;
-   toy.scale.y = 0.4;
+   toy.scale.x = 0.12;
+   toy.scale.y = 0.12;
  
    
 
+}
+
+function makeANewPlushie() {
+  toy.destroy();
+    
+  random = Math.floor(Math.random() * 3)
+ 
+  // score.textContent = calc;
+  claw.y = -1250
+  toy = new PIXI.Sprite(
+    PIXI.loader.resources[plushies[random]].texture);
+
+  app.stage.addChild(toy)
+  placeToy();
+  stopMovingClaw = false
+  
+  console.log("BAM!!")
 }
 
 
@@ -183,8 +209,12 @@ function runDetection() {
     	extractToy();
       stopMovingClaw = true;
     } else{
-      claw.y = -1250;
-      stopMovingClaw = false;
+      // toy.destroy();
+    
+    
+      calc -= 2
+      score.textContent = calc
+     makeANewPlushie()
     }
     }
 
@@ -195,20 +225,21 @@ function runDetection() {
 
   if(hitTestRectangle(claw, toy)) {
     // toy.tint('#000000')
-    toy.destroy();
+    // toy.destroy();
     
     
       calc += 10
       score.textContent = calc;
-      claw.y = -1250
-      toy = new PIXI.Sprite(
-        PIXI.loader.resources["assets/plushie.svg"].texture);
+      makeANewPlushie();
+    //   claw.y = -1250
+    //   toy = new PIXI.Sprite(
+    //     PIXI.loader.resources["assets/plushie.svg"].texture);
 
-      app.stage.addChild(toy)
-      placeToy();
-      stopMovingClaw = false
+    //   app.stage.addChild(toy)
+    //   placeToy();
+    //   stopMovingClaw = false
     
-    console.log("BAM!!")
+    // console.log("BAM!!")
   }
 }
 
