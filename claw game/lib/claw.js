@@ -12,6 +12,7 @@ let modelParams = {
 const video = document.querySelector("#myvid");
 const canvas = document.querySelector("#cnv");
 const context = canvas.getContext("2d");
+const score = document.querySelector(".score")
 let isVideo = false;
 let model = null;
 let center = 0;
@@ -22,6 +23,7 @@ let toy;
 let texture1;
 let texture2;
 let closedClaw;
+let calc = 0;
 
 function startVideo() {
   handTrack.startVideo(video).then(function (status) {
@@ -85,6 +87,8 @@ function hitTestRectangle(r1, r2) {
   //`hit` will be either `true` or `false`
   return hit;
 };
+
+
 //Create a Pixi Application
 let app = new PIXI.Application({width: 1000, height: 700});
 
@@ -102,7 +106,7 @@ app.renderer.backgroundColor = 0x231919;
 
 //loading image into the app
 PIXI.loader
-  .add(["assets/cc.svg", "assets/plushie.svg", "assets/claw.svg"])
+  .add(["assets/cc.svg", "assets/plushie.svg", "assets/claw.svg", "assets/back_1.png"])
   .load(setup);
 
 
@@ -117,8 +121,18 @@ function setup() {
     PIXI.loader.resources["assets/claw.svg"].texture);
   toy = new PIXI.Sprite(
     PIXI.loader.resources["assets/plushie.svg"].texture);
+  const background = new PIXI.Sprite(
+    PIXI.loader.resources["assets/back_1.png"].texture);
   
-  
+
+
+    background.anchor.x = 0;
+    background.anchor.y = 0;
+    
+    background.position.x = 0;
+    background.position.y = 0;
+    
+    app.stage.addChild( background );
 
  
   app.stage.addChild(claw);
@@ -168,6 +182,9 @@ function runDetection() {
     { if (claw.y <= -760){
     	extractToy();
       stopMovingClaw = true;
+    } else{
+      claw.y = -1250;
+      stopMovingClaw = false;
     }
     }
 
@@ -177,11 +194,12 @@ function runDetection() {
   });
 
   if(hitTestRectangle(claw, toy)) {
+    // toy.tint('#000000')
     toy.destroy();
     
     
-    
-    
+      calc += 10
+      score.textContent = calc;
       claw.y = -1250
       toy = new PIXI.Sprite(
         PIXI.loader.resources["assets/plushie.svg"].texture);
