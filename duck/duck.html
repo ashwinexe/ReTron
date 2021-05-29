@@ -6,29 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duck Hunt Dog!</title>
     <link rel="stylesheet" href="assets/duck.css">
-    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
-    <script>
-        function play() {
-    const startSound = new Audio('assets/audio/start.mp3');
-    startSound.currentTime = 0;
-    startSound.volume = .1
-    startSound.play()
-    }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 </head>
-<body onload="init();">
-    <div style="display: flex;">
-        <div class="container">
-            <div class="instructions">
-                <h1>Duck Hunt Dog</h1>
-                <h2>How to play</h2>
-                <ul>
-                    <li>1. Click Start</li>
-                </ul>
-            </div>
-        </div>
-        <canvas id="canvas" width="640" height="480"></canvas>
-    </div>
-    <!-- <script src="lib/duck.js"></script> -->
+
+<body>
+    <canvas id="mycanvas"></canvas>
+    <script type="text/javascript">
+        let type = "WebGL"
+        if(!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        }
+
+        PIXI.utils.sayHello(type);
+
+        const canvas = document.getElementById('mycanvas');
+
+        let app = new PIXI.Application({ 
+            view: canvas,
+            width: window.innerWidth,
+            height: window.innerHeight
+            // width: 256,
+            // height: 256
+        });
+
+
+        const texture_bird = PIXI.Texture.from('assets/images/duck.svg');
+
+        const img_duck = new PIXI.Sprite(texture_bird);
+        img_duck.scale.x = 0.5;
+        img_duck.scale.y = 0.5;
+
+        app.stage.addChild(img_duck)
+
+        img_duck.x = app.renderer.width / 2;
+        img_duck.y = app.renderer.height / 2;
+        img_duck.anchor.x = 0.5;
+        img_duck.anchor.y = 0.5;
+
+        // app.ticker.add(animate);
+
+        function animate() {
+            img_duck.x += 1;
+        }
+
+    </script>
+
 </body>
 </html>
