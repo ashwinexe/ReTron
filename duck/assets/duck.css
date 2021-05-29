@@ -5,8 +5,8 @@ body {
 #mycanvas {
     display: block;
     border: 2px solid black;
-    cursor: url(images/cursor.png) 14 14, auto;
-    background-color: #77d0f3;
+    cursor: url(images/cursor.png) 14 14, auto !important;
+    background-color: rgb(119, 208, 243);
 
 }
 
