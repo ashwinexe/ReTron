@@ -17,7 +17,7 @@ let model = null;
 let center = 0;
 let mover = 0;
 let claw;
-
+let stopMovingClaw = false
 
 
 function startVideo() {
@@ -58,7 +58,7 @@ function setup() {
   claw = new PIXI.Sprite(
     PIXI.loader.resources["assets/claw.svg"].texture);
   app.stage.addChild(claw);
-  claw.y = 30;
+  claw.y = -1250;
   claw.scale.x = 0.5;
   claw.scale.y = 0.5;
   claw.vy = 0;
@@ -71,15 +71,16 @@ function runDetection() {
    
    model.renderPredictions(predictions, canvas, context, video);
     
-    if (predictions.length != 0 && predictions[0].label === 'open')
+    if (predictions.length != 0 && predictions[0].label === 'open' && !stopMovingClaw)
     {	center = predictions[0].bbox[0] + (predictions[0].bbox[2] / 2)
         mover = document.body.clientWidth * (center / video.width);
           console.log("mover:", mover, "center:", center);
           claw.x = mover;
         }
     if (predictions.length != 0 && predictions[0].label === 'closed')
-    { if (claw.y <= 500){
+    { if (claw.y <= -760){
     	extractToy();
+      stopMovingClaw = true
     }
     }
 
