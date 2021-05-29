@@ -10,105 +10,124 @@
 </head>
 
 <body>
-    <!-- <canvas id="mycanvas"></canvas> -->
+    <canvas id="mycanvas"></canvas>
     <script>
-        //Aliases
-let Application = PIXI.Application,
-    Container = PIXI.Container,
-    Graphics = PIXI.Graphics,
-    TextureCache = PIXI.utils.TextureCache,
-    Sprite = PIXI.Sprite,
-    Text = PIXI.Text,
-    TextStyle = PIXI.TextStyle;
+        
+        //this gets our canvas id and stores it in const canvas
+        const canvas = document.getElementById('mycanvas');
 
+        //this creates the PIXI app
+        let app = new PIXI.Application({ 
+            view: canvas,
+            width: window.innerWidth,
+            height: window.innerHeight
+            // width: 256,
+            // height: 256
+        });
 
-const canvas = document.getElementById('mycanvas');
+        //this changes bg color
+        // app.renderer.backgroundColor = 0x77d0f3;
 
-//Create a Pixi Application
-let app = new Application({ 
-    width: window.innerWidth, 
-    height: window.innerHeight,                       
-    antialiasing: true, 
-    transparent: false, 
-    resolution: 1
-  }
-);
+        //this imports image as texture (webGL can render textures)
+        const texture_birdR = PIXI.Texture.from('assets/images/duckR.svg');
+        const texture_birdL = PIXI.Texture.from('assets/images/duckL.svg');
 
-app.renderer.backgroundColor = 0x77d0f3;
+        //this saves the texture as sprite image
+        const duck_right = new PIXI.Sprite(texture_birdR);
+        const duck_left = new PIXI.Sprite(texture_birdL);
 
-document.body.appendChild(app.view);
+        //to change dimensions
+        duck_right.scale.x = 0.5;
+        duck_right.scale.y = 0.5;
+        duck_left.scale.x = 0.5;
+        duck_left.scale.y = 0.5;
 
+        first_duck();
+        //this shows the object (sprite in this case) to the stage 
+        function first_duck() {
+            duck_right.visible = true;
+            app.stage.addChild(duck_right);
+            app.ticker.add(animate_duck_right);
+            duck_right_pos(duck_right)
+        }
 
-function setup() {
+        function next_duck() {
+            duck_left.visible = true;
+            app.stage.addChild(duck_left);
+            app.ticker.add(animate_duck_left);
+            duck_left_pos(duck_left);
+        }
 
-// make the game scene and add it to stage
-gameScene = new Container();
-app.stage.addChild(gameScene);
+        //this is used to change location of duck sprite
+        function duck_right_pos(sprite){
 
-//game over scene
-gameOverScene = new Container();
-app.stage.addChild(gameOverScene);
-gameOverScene.visible = false;
+            sprite.x = app.renderer.width / 3;
+            sprite.y = app.renderer.height;
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+        }
 
-//making ducks
-let numberOfDucks = 6,
-spacing = 48,
-xOffset = 150,
-speed = 1,
-direction = 1;
+        function duck_left_pos(sprite){
 
-const texture_duck = PIXI.Texture.from('assets/images/duck.svg');
+            sprite.x = app.renderer.width / 1.5;
+            sprite.y = app.renderer.height;
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+        }
 
-// an array to store all ducks
-ducks = [];
+        duck_right.interactive = true;
+        duck_left.interactive = true;
+        //this adds animation
+        
+        const randomDirection = (Math.random() > 0.5 ? 1.5 : -1.5); //not used
+        //this is the defination of animation
+        function animate_duck_right() {
+            duck_right.x += 1.5;
+            duck_right.y -= 1.5;
+            check_bounds(duck_right.x, duck_right.y);
+        }
 
-//make duck
-let duck = new Sprite(texture_duck);
+        function animate_duck_left() {
+            duck_left.x -= 1.5;
+            duck_left.y -= 1.5;
+            check_bounds(duck_left.x, duck_left.y);
+            
+            console.log('x ' + duck_left.x, 'y ' + duck_left.y);
+            
+        }
 
-//xOffset is point of first duck from left of screen
-// ket x = spacing * i  + xOffset;
+        duck_right.on('mousedown', onDown1);
+        duck_left.on('mousedown', onDown2);
 
-// give duck random x position
-let x = randomInt(0, app.stage.width = duck.width);
+        function onDown1(){
+            // flash_screen();
+            // app.ticker.stop(animate_duck_right);
+            duck_right.visible = false;
+            next_duck();
+        }
+        function onDown2(){
+            // flash_screen();
+            // app.ticker.stop(animate_duck_right);
+            duck_left.visible = false;
+            first_duck();
+        }
 
-// set duck's position
-duck.x = x;
-duck.y = app.renderer.height;
+        function check_bounds(duck_x, duck_y) {
+            if(duck_x > window.innerWidth || duck_x < 0)
+                {
+                    console.log('out of bounds horizontally');
+                    console.log(window.innerWidth);
+                    app.ticker.destroy();
+                }
 
-duck.vy = speed * direction;
+            if(duck_y > window.innerHeight || duck_y < 0)
+                {
+                    console.log('out of bounds vertically');
+                    console.log(window.innerHeight);
+                    app.ticker.destory();
+                }
 
-//change direction for next blob
-direction *= -1;
-
-//pushing ducks in array
-ducks.push(duck);
-
-gameScene.addChild(duck);
-
-state = play;
-
-app.ticker.add(delta => gameLoop(delta));
-}
-
-function gameLoop(delta){
-    //updates the game state
-    state(delta);
-}
-
-function play(delta) {
-    ducks.forEach(function(duck) {
-        //mode duck
-        duck.y += duck.vy;
-
-        // let duckHitsWall = contain(duck, )
-    });
-
-}
-
-function end() {
-    gameScene.visible = false;
-    gameOverScene.visible = true;
-}
+        }
 </script>
 
 
