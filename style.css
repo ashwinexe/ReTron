@@ -76,3 +76,15 @@ svg {
         bottom: 15%;
     }
 }
+
+
+.container {
+
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
