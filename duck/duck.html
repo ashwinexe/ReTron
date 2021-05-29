@@ -31,6 +31,8 @@
         //this imports image as texture (webGL can render textures)
         const texture_birdR = PIXI.Texture.from('assets/images/duckR.svg');
         const texture_birdL = PIXI.Texture.from('assets/images/duckL.svg');
+        const grass = PIXI.Texture.from('assets/images/grass.svg');
+
 
         //this saves the texture as sprite image
         const duck_right = new PIXI.Sprite(texture_birdR);
@@ -58,7 +60,7 @@
             duck_left_pos(duck_left);
         }
 
-        //this is used to change location of duck sprite
+        //this is used to initiate location of duck sprite
         function duck_right_pos(sprite){
             random_location = Math.floor(Math.random() * 10) + 2;
             sprite.x = app.renderer.width / random_location;
@@ -79,7 +81,6 @@
         duck_left.interactive = true;
         //this adds animation
         
-        const randomDirection = (Math.random() > 0.5 ? 1.5 : -1.5); //not used
         //this is the defination of animation
         function animate_duck_right() {
             duck_right.x += 1.5;
@@ -126,10 +127,9 @@
                     console.log(window.innerHeight);
                     app.ticker.destory();
                 }
-
         }
 </script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/handtrackjs@latest/dist/handtrack.min.js"> </script>
 </body>
 </html>

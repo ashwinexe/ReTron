@@ -12,6 +12,7 @@ let modelParams = {
 const video = document.querySelector("#myvid");
 const canvas = document.querySelector("#cnv");
 const context = canvas.getContext("2d");
+
 let isVideo = false;
 let model = null;
 let center = 0;
