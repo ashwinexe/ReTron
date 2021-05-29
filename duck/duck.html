@@ -60,16 +60,16 @@
 
         //this is used to change location of duck sprite
         function duck_right_pos(sprite){
-
-            sprite.x = app.renderer.width / 3;
+            random_location = Math.floor(Math.random() * 10) + 2;
+            sprite.x = app.renderer.width / random_location;
             sprite.y = app.renderer.height;
             sprite.anchor.x = 0.5;
             sprite.anchor.y = 0.5;
         }
 
         function duck_left_pos(sprite){
-
-            sprite.x = app.renderer.width / 1.5;
+            random_location = Math.floor(Math.random() * 3) + 1;
+            sprite.x = app.renderer.width / random_location;
             sprite.y = app.renderer.height;
             sprite.anchor.x = 0.5;
             sprite.anchor.y = 0.5;
