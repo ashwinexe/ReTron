@@ -7,6 +7,7 @@ body{
 	height: 100%;
 	display: flex;
 	justify-content: space-around;
+	font-family: 'Squada One', cursive;
 }
 
 
@@ -20,6 +21,12 @@ body{
 	
 }
 
+span {
+	color: #00FFFF;
+	font-size: 1.5rem;
+	margin-left: 1rem;
+}
+
 .score-container {
 	
 	display: flex;
@@ -27,5 +34,61 @@ body{
 	justify-content: center;
 	align-items: center;
 }
+
+.game-over {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	text-align: center;
+	background-color: #333030;
+	display: none;
+}
+
+.game-over h1{
+	color: aqua;
+	font-size: 6rem;
+	margin-top: 3rem;
+}
+
+.game-over p {
+	color: white;
+	margin-top: 3rem;
+	font-size: 2rem;
+}
+
+button {
+	color: black;
+	background-color: aqua;
+	border: transparent;
+	border-radius: 25px;
+	padding: 0.75rem 3rem;
+	margin: 2rem 0.75rem;
+	font-size: 1rem;
+}
+
+button:hover {
+	opacity: 0.7;
+}
+.timer-container {
+	background-color: #333030;
+	position: absolute;
+	left: 1200px;
+	top: 30px;
+	display: flex;
+	justify-content: center;
+	
+}
+
+a{
+	text-decoration: none;
+}
+
+.show {
+	display: block
+}
+
 
 
