@@ -1,5 +1,8 @@
 ## PLay it at : https://mlh-hackcade.vercel.app/
 # Devpost : https://devpost.com/software/sharkade
+
+![Landing](https://user-images.githubusercontent.com/49470807/120106329-39832900-c17a-11eb-9d66-ba666513b0ad.png)
+
 ## 💡 Inspiration
 The pandemic has prohibited us from leaving our homes. 
 The nostalgia induced by arcade games is too overpowering, but sadly, we couldn't do much about it except reminisce about the fun times we spent as kids in the arcade.
@@ -29,4 +32,3 @@ There are many features in the pipeline, such as
 * Online Multiplayer capabilities
 * Local 2-player Support
 
-![Landing](https://user-images.githubusercontent.com/49470807/120106329-39832900-c17a-11eb-9d66-ba666513b0ad.png)
