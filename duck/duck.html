@@ -31,12 +31,21 @@
         //this imports image as texture (webGL can render textures)
         const texture_birdR = PIXI.Texture.from('assets/images/duckR.svg');
         const texture_birdL = PIXI.Texture.from('assets/images/duckL.svg');
-        const grass = PIXI.Texture.from('assets/images/grass.svg');
+        const texture_grass = PIXI.Texture.from('assets/images/grass.svg');
 
 
         //this saves the texture as sprite image
         const duck_right = new PIXI.Sprite(texture_birdR);
         const duck_left = new PIXI.Sprite(texture_birdL);
+        const grass = new PIXI.Sprite(texture_grass);
+
+        app.stage.addChild(grass);
+        grass.y = app.renderer.height/1.35;
+        // grass.x = app.renderer.width/2;
+
+
+        grass.zOrder = -grass.position.y;
+        duck_right.zOrder = +duck_right.position.y;
 
         //to change dimensions
         duck_right.scale.x = 0.5;

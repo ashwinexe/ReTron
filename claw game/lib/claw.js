@@ -205,10 +205,12 @@ function runDetection() {
     }
 
     if (predictions.length != 0 && predictions[0].label === 'closed')
-    { if (claw.y <= -760){
+    { 
+      if (claw.y <= -760){
     	extractToy();
       stopMovingClaw = true;
     } else{
+      
       // toy.destroy();
     
     
