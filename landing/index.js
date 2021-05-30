@@ -10,7 +10,7 @@ const playBtn = document.querySelector('.play')
 
 //get image urls for games
 const gameCovers = [
-    "https://ashwinexe.github.io/ReTron/assets/hops.png",
+    "/assets/DUCKHUNT.png",
     "/assets/whack.png",
     "/assets/hops.png",
     "/assets/clawed.png"
