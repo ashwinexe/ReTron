@@ -26,7 +26,7 @@ function setRoute(idx) {
     }else if(idx % 4 == 2){
         playBtn.href = "/basketball/basketball.html"
     }else {
-        playBtn.href = '/claw/claw.html'
+        playBtn.href = '/claw game/claw.html'
     }
 }
 
