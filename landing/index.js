@@ -17,7 +17,7 @@ const gameCovers = [
 ]
 
 let currentIndex = 0;
-playBtn.href = "/duck/duck.html"
+playBtn.href = "/ReTron/duck/duck.html"
 function setRoute(idx) {
     if(idx % 4 == 0) {
        playBtn.href = "/ReTron/duck/duck.html"
