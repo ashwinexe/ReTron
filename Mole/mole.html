@@ -5,127 +5,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mole Game</title>
-
-    <style>
-        .grid-container {
-          display: grid;
-          grid-template-columns: auto auto auto;
-          background-color: whitesmoke;
-        }
-        .grid-item {
-          background-color: red;
-          text-align: center;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mole.css">
 
 </head>
-<body  onload="canvas.setup()">
-
-    <canvas id="canvasArea1" style="position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
-    <canvas id="canvasArea2" style="visibility: hidden; position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
-    <p id="score_list">Score: 0</p>
+<body  onload="setup()">
     <div class="grid-container">
-        <div class="grid-item" id="00"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="01"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="02"><img src="Assets/base_image.png" height="250px" width="auto"></div>  
-        <div class="grid-item" id="10"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="11"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="12"><img src="Assets/base_image.png" height="250px" width="auto"></div>  
-        <div class="grid-item" id="20"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="21"><img src="Assets/base_image.png" height="250px" width="auto"></div>
-        <div class="grid-item" id="22"><img src="Assets/base_image.png" height="250px" width="auto"></div>  
+        <div class="grid-item" id="00">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="01">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="02">
+            <div class="mole"></div>
+        </div>  
+        <div class="grid-item" id="10">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="11">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="12">
+            <div class="mole"></div>
+        </div>  
+        <div class="grid-item" id="20">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="21">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="22">
+            <div class="mole"></div>
+        </div>  
     </div>
-
-
-    <script src="./canvas.js"></script>
-    
+    <h3 id="score_header">MOLES HIT: 0</h3>
 </body>
-
 
 <script>
 
-    var previous_mole, current_mole, score, padding_y, padding_x, flag, timeStep, image_height, image_width;
-    timeStep = 500;
-
-    function get_page_width(){
-        return Math.max(document.documentElement["clientWidth"],document.body["scrollWidth"],document.documentElement["scrollWidth"],document.body["offsetWidth"],document.documentElement["offsetWidth"]);
-    }
-
-    function get_page_height(){
-        return Math.max(document.documentElement["clientHeight"],document.body["scrollHeight"],document.documentElement["scrollHeight"],document.body["offsetHeight"],document.documentElement["offsetHeight"]);
-    }
+    let previous_hole, current_hole, score;
+    let timeUp = false;
+    const moles = document.querySelectorAll(".mole");
+    const score_header =  document.querySelector("#score_header");
 
     function setup(){
-        previous_mole = null; // Previous mole position
-        current_mole = null; // Current mole position
-        
-        padding_x = 9; // Leftmost position
-        padding_y = 53; // Topmost position
-        
-        image_height = 250; // Height of image
-        image_width = (get_page_width() - 2*padding_x)/3; // Width of image
-
+        previous_hole = null; // Previous_hole position
+        current_hole = null; // Current_hole position
         score = 0; 
         flag= false; 
-        //timeStep = 100;
+        molePop();
+        setTimeout(() => timeUp = true, 20000)
     }
 
-   
-    function check_scored(){
-        if(!flag || current_mole == null){
-            return false;
-        }
-
-        let current_str = current_mole;
-        let i = parseInt(current_str[0]);
-        let j = parseInt(current_str[1]);
-
-        let left_y = padding_y + i*image_height;
-        let right_y = left_y + image_height;
-
-        let top_x = padding_x + j*image_width;
-        let bottom_x = top_x + image_width;
-
-        let mouse_x = canvas.mouseDownX;
-        let mouse_y = canvas.mouseDownY;
-
-        let x_check = (top_x <= mouse_x) && (mouse_x < bottom_x);
-        let y_check = (left_y <= mouse_y) && (mouse_y < right_y);
-
-        return x_check && y_check;
+    function randomTime(min, max){
+        return Math.round(Math.random() * (max - min) + min);
     }
 
-    canvas.keyDownCallback = function(e){
-        if(e.keyCode == 65){
-            flag = true;
-        }
-    } 
+    function molePop(){
+        const time = randomTime(1000, 2500);
+        const hole = generateHole();
+        hole.classList.add('up');
+        setTimeout(() => {
+            hole.classList.remove('up');
+            if (!timeUp) molePop();
+            }, time);
+    }
 
-    function main(){
-        canvas.clear();
-        if(flag == true){
+    function generateHole(){
             let i = Math.floor(Math.random() * 3);
             let j = Math.floor(Math.random() * 3);
+            current_hole = "" + i + j;
             
-            if(check_scored() == true){
-                score++;
-            }
-
-            if(previous_mole != null){
-                document.getElementById(previous_mole).style = "background-color: red";
-            }
-
-            current_mole = "" + i + j;
-            document.getElementById(current_mole).style = "background-color: green" ;
-            previous_mole = current_mole;
-        }
-        document.getElementById("score_list").innerHTML = "Your score is: " + score;
-        
+            if(previous_hole === current_hole){
+                return generateHole();
+           }
+           let hole = document.getElementById(current_hole);
+           console.log(hole);
+           previous_hole = current_hole;
+           return hole;   
     }
 
-    canvas.mainFunction = main;
-    canvas.setupFunction = setup;
-    canvas.startMain(timeStep);
+     function check_scored(e) {
+        if(!e.isTrusted) return; // cheater!
+        score++;
+        this.parentNode.classList.remove('up');
+        score_header.textContent = "MOLES HIT:" + score;
+  }
+
+  moles.forEach(mole => mole.addEventListener('click', check_scored));
 
 
 </script>
