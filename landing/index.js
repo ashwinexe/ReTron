@@ -20,13 +20,13 @@ let currentIndex = 0;
 playBtn.href = "/duck/duck.html"
 function setRoute(idx) {
     if(idx % 4 == 0) {
-       playBtn.href = "/duck/duck.html"
+       playBtn.href = "/ReTron/duck/duck.html"
     }else if(idx % 4 == 1){
-        playBtn.href = "/Mole/mole.html"
+        playBtn.href = "/ReTron/Mole/mole.html"
     }else if(idx % 4 == 2){
-        playBtn.href = "/basketball/basketball.html"
+        playBtn.href = "/ReTron/basketball/basketball.html"
     }else {
-        playBtn.href = '/claw game/claw.html'
+        playBtn.href = '/ReTron/claw game/claw.html'
     }
 }
 
