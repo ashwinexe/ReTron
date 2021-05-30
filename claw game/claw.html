@@ -4,10 +4,14 @@
 	<head>
 	  <meta charset="UTF-8">
 	  <title>Claw Game</title>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	  <link rel="stylesheet" href="claw-style.css">
 	  <link rel="stylesheet" href="../style.css">
+	  <link rel="preconnect" href="https://fonts.gstatic.com">
+	  <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet"> 
 	</head>
 	<script src="lib/pixi.min.js"></script>
+	
 
 	<body>
 		<video id="myvid"></video>
@@ -16,8 +20,23 @@
 			<div class="score-container">
 				<h3>Score:</h3>
 				<h1 class="score">0</h1>
+				
+			</div>
+
+			<div class="timer-container">
+				<span><i class="far fa-clock"></i></span>
+				<span class="timer">2:00</span>
 			</div>
 			
+		</div>
+
+		<div class="game-over">
+			<h1>Game Over</h1>
+			<p>Your score is <span class="final-score">0</span></p>
+			<div class="container">
+				<button> <a href="/claw game/claw.html">Retry</a> </button>
+				<button> <a href="/">Home</a> </button>
+			</div>
 		</div>
 		
 		<script src="https://cdn.jsdelivr.net/npm/handtrackjs@latest/dist/handtrack.min.js"> </script>

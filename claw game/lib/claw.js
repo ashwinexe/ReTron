@@ -13,6 +13,9 @@ const video = document.querySelector("#myvid");
 const canvas = document.querySelector("#cnv");
 const context = canvas.getContext("2d");
 const score = document.querySelector(".score")
+const timer = document.querySelector('.timer')
+const gameOverContainer = document.querySelector('.game-over')
+
 let isVideo = false;
 let model = null;
 let center = 0;
@@ -25,7 +28,14 @@ let texture2;
 let closedClaw;
 let calc = 0;
 let random = 1;
-let plushies = []
+let plushies = [];
+// let gameOver = false;
+
+function gameOver() {
+  video.pause();
+  gameOverContainer.classList.add('show')
+  document.querySelector('.final-score').textContent = calc;
+}
 
 function startVideo() {
   handTrack.startVideo(video).then(function (status) {
@@ -36,6 +46,7 @@ function startVideo() {
     }
   });
 }
+
 
 
 //check for collision
@@ -99,6 +110,40 @@ handTrack.load(modelParams).then((lmodel) => {
   model = lmodel;
 });
 
+//countdown timer
+let timeoutHandle;
+function countdown(minutes) {
+    var seconds = 60;
+    var mins = minutes
+    function tick() {
+        // var counter = document.getElementById("timer");
+        var current_minutes = mins-1
+        seconds--;
+        if(seconds == 0 && current_minutes == 0) {
+          gameOver()
+        }
+        timer.innerHTML =
+        current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+
+        
+        
+        if( seconds > 0 ) {
+            timeoutHandle=setTimeout(tick, 1000);
+        } else {
+ 
+            if(mins > 1){
+ 
+              
+               setTimeout(function () { countdown(mins - 1); }, 1000);
+ 
+            }
+        }
+    }
+    tick();
+}
+ 
+
+
 startVideo();
 
 //Add the canvas that Pixi automatically created for you to the HTML document
@@ -110,6 +155,8 @@ app.renderer.backgroundColor = 0x231919;
 PIXI.loader
   .add(["assets/cc.svg", "assets/plushie.svg", "assets/claw.svg", "assets/back_2.png", "assets/blahaj.svg", "assets/bunny.svg", "assets/teddy.svg"])
   .load(setup);
+
+
 
 
 
@@ -146,6 +193,9 @@ function setup() {
  
   app.stage.addChild(claw);
   app.stage.addChild(toy);
+
+  //start timer
+  countdown(1)
   // app.stage.addChild(closedClaw);
   placeToy();
   claw.y = -1250;
@@ -190,21 +240,23 @@ function runDetection() {
   model.detect(video).then((predictions) => {
    
    model.renderPredictions(predictions, canvas, context, video);
-    
+
+
+   
     if (predictions.length != 0 && predictions[0].label === 'open' && !stopMovingClaw)
     {	center = predictions[0].bbox[0] + (predictions[0].bbox[2] / 2)
         mover = document.body.clientWidth * (center / video.width);
           console.log("mover:", mover, "center:", center);
           claw.x = mover;
-          
+          claw.texture = texture1;
     }
 
-    if (predictions.length != 0 && predictions[0].label === 'open' && stopMovingClaw)
+    else if (predictions.length != 0 && predictions[0].label === 'open' && stopMovingClaw)
     {
       claw.texture = texture1;     
     }
 
-    if (predictions.length != 0 && predictions[0].label === 'closed')
+    else if ((predictions.length != 0 && predictions[0].label === 'closed') || stopMovingClaw)
     { if (claw.y <= -760){
     	extractToy();
       stopMovingClaw = true;
@@ -216,6 +268,8 @@ function runDetection() {
       score.textContent = calc
      makeANewPlushie()
     }
+    }else {
+
     }
 
     if (isVideo) {
@@ -231,15 +285,7 @@ function runDetection() {
       calc += 10
       score.textContent = calc;
       makeANewPlushie();
-    //   claw.y = -1250
-    //   toy = new PIXI.Sprite(
-    //     PIXI.loader.resources["assets/plushie.svg"].texture);
-
-    //   app.stage.addChild(toy)
-    //   placeToy();
-    //   stopMovingClaw = false
     
-    // console.log("BAM!!")
   }
 }
 
