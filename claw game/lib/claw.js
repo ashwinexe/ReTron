@@ -15,6 +15,8 @@ const context = canvas.getContext("2d");
 const score = document.querySelector(".score")
 const timer = document.querySelector('.timer')
 const gameOverContainer = document.querySelector('.game-over')
+const audio1 = document.querySelector('.audio1')
+const audio2 = document.querySelector('.audio2')
 
 let isVideo = false;
 let model = null;
@@ -35,6 +37,8 @@ function gameOver() {
   video.pause();
   gameOverContainer.classList.add('show')
   document.querySelector('.final-score').textContent = calc;
+  audio1.pause();
+  audio2.play();
 }
 
 function startVideo() {
@@ -144,7 +148,7 @@ function countdown(minutes) {
  
 
 
-startVideo();
+// startVideo();
 
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
@@ -196,6 +200,9 @@ function setup() {
 
   //start timer
   countdown(1)
+
+  //play audio
+   audio1.play()
   // app.stage.addChild(closedClaw);
   placeToy();
   claw.y = -1250;
