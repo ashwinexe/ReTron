@@ -1,8 +1,11 @@
-#canvas {
-    border: 2px solid black;
-    cursor: url(images/cursor.png) 14 14, auto;
-    background-color: #77d0f3;
+body {
+  margin: 0;
+}
 
+#mycanvas {
+    display: block;
+    border: 2px solid black;
+    cursor: url(images/cursor.png) 14 14, auto !important;
 }
 
 

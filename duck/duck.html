@@ -6,29 +6,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duck Hunt Dog!</title>
     <link rel="stylesheet" href="assets/duck.css">
-    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
-    <script>
-        function play() {
-    const startSound = new Audio('assets/audio/start.mp3');
-    startSound.currentTime = 0;
-    startSound.volume = .1
-    startSound.play()
-    }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
 </head>
-<body onload="init();">
-    <div style="display: flex;">
-        <div class="container">
-            <div class="instructions">
-                <h1>Duck Hunt Dog</h1>
-                <h2>How to play</h2>
-                <ul>
-                    <li>1. Click Start</li>
-                </ul>
-            </div>
-        </div>
-        <canvas id="canvas" width="640" height="480"></canvas>
-    </div>
-    <!-- <script src="lib/duck.js"></script> -->
+
+<body>
+    <canvas id="mycanvas"></canvas>
+    <script>
+        
+        //this gets our canvas id and stores it in const canvas
+        const canvas = document.getElementById('mycanvas');
+
+        //this creates the PIXI app
+        let app = new PIXI.Application({ 
+            view: canvas,
+            width: window.innerWidth,
+            height: window.innerHeight
+            // width: 256,
+            // height: 256
+        });
+
+        //this changes bg color
+        // app.renderer.backgroundColor = 0x77d0f3;
+
+        //this imports image as texture (webGL can render textures)
+        const texture_birdR = PIXI.Texture.from('assets/images/duckR.svg');
+        const texture_birdL = PIXI.Texture.from('assets/images/duckL.svg');
+        const texture_grass = PIXI.Texture.from('assets/images/grass.svg');
+
+
+        //this saves the texture as sprite image
+        const duck_right = new PIXI.Sprite(texture_birdR);
+        const duck_left = new PIXI.Sprite(texture_birdL);
+        const grass = new PIXI.Sprite(texture_grass);
+
+        app.stage.addChild(grass);
+        grass.y = app.renderer.height/1.35;
+        // grass.x = app.renderer.width/2;
+
+
+        grass.zOrder = -grass.position.y;
+        duck_right.zOrder = +duck_right.position.y;
+
+        //to change dimensions
+        duck_right.scale.x = 0.5;
+        duck_right.scale.y = 0.5;
+        duck_left.scale.x = 0.5;
+        duck_left.scale.y = 0.5;
+
+        first_duck();
+        //this shows the object (sprite in this case) to the stage 
+        function first_duck() {
+            duck_right.visible = true;
+            app.stage.addChild(duck_right);
+            app.ticker.add(animate_duck_right);
+            duck_right_pos(duck_right)
+        }
+
+        function next_duck() {
+            duck_left.visible = true;
+            app.stage.addChild(duck_left);
+            app.ticker.add(animate_duck_left);
+            duck_left_pos(duck_left);
+        }
+
+        //this is used to initiate location of duck sprite
+        function duck_right_pos(sprite){
+            random_location = Math.floor(Math.random() * 10) + 2;
+            sprite.x = app.renderer.width / random_location;
+            sprite.y = app.renderer.height;
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+        }
+
+        function duck_left_pos(sprite){
+            random_location = Math.floor(Math.random() * 3) + 1;
+            sprite.x = app.renderer.width / random_location;
+            sprite.y = app.renderer.height;
+            sprite.anchor.x = 0.5;
+            sprite.anchor.y = 0.5;
+        }
+
+        duck_right.interactive = true;
+        duck_left.interactive = true;
+        //this adds animation
+        
+        //this is the defination of animation
+        function animate_duck_right() {
+            duck_right.x += 1.5;
+            duck_right.y -= 1.5;
+            check_bounds(duck_right.x, duck_right.y);
+        }
+
+        function animate_duck_left() {
+            duck_left.x -= 1.5;
+            duck_left.y -= 1.5;
+            check_bounds(duck_left.x, duck_left.y);
+            
+            console.log('x ' + duck_left.x, 'y ' + duck_left.y);
+            
+        }
+
+        duck_right.on('mousedown', onDown1);
+        duck_left.on('mousedown', onDown2);
+
+        function onDown1(){
+            // flash_screen();
+            // app.ticker.stop(animate_duck_right);
+            duck_right.visible = false;
+            next_duck();
+        }
+        function onDown2(){
+            // flash_screen();
+            // app.ticker.stop(animate_duck_right);
+            duck_left.visible = false;
+            first_duck();
+        }
+
+        function check_bounds(duck_x, duck_y) {
+            if(duck_x > window.innerWidth || duck_x < 0)
+                {
+                    console.log('out of bounds horizontally');
+                    console.log(window.innerWidth);
+                    app.ticker.destroy();
+                }
+
+            if(duck_y > window.innerHeight || duck_y < 0)
+                {
+                    console.log('out of bounds vertically');
+                    console.log(window.innerHeight);
+                    app.ticker.destory();
+                }
+        }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/handtrackjs@latest/dist/handtrack.min.js"> </script>
 </body>
 </html>
