@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mole Game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mole.css">
+
+</head>
+<body  onload="setup()">
+    <div class="grid-container">
+        <div class="grid-item" id="00">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="01">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="02">
+            <div class="mole"></div>
+        </div>  
+        <div class="grid-item" id="10">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="11">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="12">
+            <div class="mole"></div>
+        </div>  
+        <div class="grid-item" id="20">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="21">
+            <div class="mole"></div>
+        </div>
+        <div class="grid-item" id="22">
+            <div class="mole"></div>
+        </div>  
+    </div>
+    <h3 id="score_header">MOLES HIT: 0</h3>
+</body>
+
+<script>
+
+    let previous_hole, current_hole, score;
+    let timeUp = false;
+    const moles = document.querySelectorAll(".mole");
+    const score_header =  document.querySelector("#score_header");
+
+    function setup(){
+        previous_hole = null; // Previous_hole position
+        current_hole = null; // Current_hole position
+        score = 0; 
+        flag= false; 
+        molePop();
+        setTimeout(() => timeUp = true, 20000)
+    }
+
+    function randomTime(min, max){
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    function molePop(){
+        const time = randomTime(1000, 2500);
+        const hole = generateHole();
+        hole.classList.add('up');
+        setTimeout(() => {
+            hole.classList.remove('up');
+            if (!timeUp) molePop();
+            }, time);
+    }
+
+    function generateHole(){
+            let i = Math.floor(Math.random() * 3);
+            let j = Math.floor(Math.random() * 3);
+            current_hole = "" + i + j;
+            
+            if(previous_hole === current_hole){
+                return generateHole();
+           }
+           let hole = document.getElementById(current_hole);
+           console.log(hole);
+           previous_hole = current_hole;
+           return hole;   
+    }
+
+     function check_scored(e) {
+        if(!e.isTrusted) return; // cheater!
+        score++;
+        this.parentNode.classList.remove('up');
+        score_header.textContent = "MOLES HIT:" + score;
+  }
+
+  moles.forEach(mole => mole.addEventListener('click', check_scored));
+
+
+</script>
+</html>

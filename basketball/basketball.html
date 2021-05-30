@@ -5,12 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basketball Game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
+    <style>
+        body{
+            background-color: black;
+            background-image: url(bg.svg);
+            font-family: "Space Mono", sans-serif;
+        }
+
+        #score_list{
+            color: yellow;
+            text-transform: uppercase;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body onload="canvas.setup()">
-    <canvas id="canvasArea1" style="position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
+    <canvas id="canvasArea1" style="position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%;"></canvas>
     <canvas id="canvasArea2" style="visibility: hidden; position: absolute; left: 0; top: 0; z-index: 0; width:100%;height:100%"></canvas>
-    <p id="score_list"></p>
+    <p id="score_list">Press A to fire the ball!</p>
 
     <script src="./canvas.js"></script>
 </body>
@@ -19,7 +35,7 @@
 
 <script>
 
-    var board_x, board_y, board_v, ball_x, ball_y, ball_v, timeStep, score, left_limit, right_limit, padding_y, length_board, initial_speed, initial_board_speed, radius_ball, radius_board, precision, flag;
+    var board_x, board_y, board_v, ball_x, ball_y, ball_v, timeStep, score, left_limit, right_limit, padding_y, length_board, initial_speed, initial_board_speed, radius_ball, radius_board, precision, flag, number_iterations, game_started;
 
     function get_page_width(){
         return Math.max(document.documentElement["clientWidth"],document.body["scrollWidth"],document.documentElement["scrollWidth"],document.body["offsetWidth"],document.documentElement["offsetWidth"]);
@@ -29,19 +45,23 @@
         return Math.max(document.documentElement["clientHeight"],document.body["scrollHeight"],document.documentElement["scrollHeight"],document.body["offsetHeight"],document.documentElement["offsetHeight"]);
     }
 
+    timeStep = 50;
+
 
 
     function setup(){
         left_limit = 0; // Represents the left boundary for the board
         right_limit = get_page_width(); // Represents the right boundary for the board
         padding_y = 100; // Represents the upper line
-        length_board = 500; // Length of the "game" board
+        length_board = 700; // Length of the "game" board
         initial_speed = 50; // Ball speed
         initial_board_speed = 20; // Board speed
-        radius_ball = 5; // Radius of the ball
+        radius_ball = 8; // Radius of the ball
         radius_board = 3*radius_ball; // Radius of the board
-        precision = 3; // Closeness parameter for scoring
+        precision = 60; // Closeness parameter for scoring
         flag = false;
+        number_iterations = 0;
+        game_started = false;
 
         board_x = right_limit/2;
         board_y = padding_y;
@@ -72,6 +92,10 @@
     }
 
     canvas.keyDownCallback = function(e){
+        if(game_started == false){
+            game_started = true;
+        }
+
         if(e.keyCode == 65){
             flag = true;
         }
@@ -79,32 +103,44 @@
 
     function main(){
         canvas.clear();
-        canvas.drawRectangle(left_limit,padding_y,(right_limit-left_limit),length_board);
-        canvas.drawCircle(ball_x,ball_y,radius_ball);
-        canvas.drawCircle(board_x,board_y,radius_board);
-        canvas.drawRectangle(board_x,board_y,radius_board);
+        //canvas.drawRectangle(left_limit,padding_y,(right_limit-left_limit),length_board);
+        //canvas.drawCircle(ball_x,ball_y,radius_ball);
+        //canvas.drawCircle(board_x,board_y,radius_board);
+        //canvas.drawRectangle(board_x,board_y,radius_board);
+        canvas.drawImg("ball.png",ball_x, ball_y, 10*radius_ball,10*radius_ball);
+        canvas.drawImg("Basket.png",board_x, board_y, 10*radius_board, 10*radius_board);
 
-        board_x -= board_v;
-        if(board_x <= left_limit){
-            collide_left_wall();
-        }
-        if(board_x >= right_limit){
-            collide_right_wall();
-        }
+        if(number_iterations < 10){
 
-        if(flag == true){
-            ball_y -= ball_v;
-        }
+            board_x -= board_v;
+            if(board_x <= left_limit){
+                collide_left_wall();
+            }
+            if(board_x >= right_limit){
+                collide_right_wall();
+            }
 
-        if(check_scored() == true){
-            score++;
-        }
+            if(flag == true){
+                ball_y -= ball_v;
+            }
 
-        if(ball_y < 0){
-            ball_y = padding_y + length_board;
-            flag = false;
+            if(check_scored() == true){
+                score++;
+            }
+
+            if(ball_y < 0){
+                ball_y = padding_y + length_board;
+                flag = false;
+                number_iterations++;
+            }
+
+            if(game_started == false){
+                document.getElementById("score_list").innerHTML = "Press A to shoot the ball. Points are awarded based on how close the ball lands. You have <b>10</b> tries. Good luck! Hit Spacebar to start.";
+            }
+            else{
+                document.getElementById("score_list").innerHTML = "Score: " + score;
+            }
         }
-        document.getElementById("score_list").innerHTML = "Your score is: " + score;
 
     }
 
