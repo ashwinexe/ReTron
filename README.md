@@ -1,3 +1,5 @@
+## PLay it at : https://mlh-hackcade.vercel.app/
+# Devpost : https://devpost.com/software/sharkade
 ## 💡 Inspiration
 The pandemic has prohibited us from leaving our homes. 
 The nostalgia induced by arcade games is too overpowering, but sadly, we couldn't do much about it except reminisce about the fun times we spent as kids in the arcade.
