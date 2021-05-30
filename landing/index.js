@@ -3,9 +3,10 @@ const swup = new Swup();
 const image1 = document.getElementById("image1");
 const nextBtn = document.querySelector("#Next");
 const prevBtn = document.querySelector("#Prev");
+const playBtn = document.querySelector('.play')
 
-// const url = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.KLjz1oTxsQDllOw8a6iFgAHaHZ%26pid%3DApi&f=1"
-// image0.setAttribute('href', url)
+
+
 
 //get image urls for games
 const gameCovers = [
@@ -15,12 +16,24 @@ const gameCovers = [
     "../assets/clawed.png"
 ]
 
-// let url = gameCovers[1]
-// image1.setAttribute('href', url)
 let currentIndex = 0;
+playBtn.href = "/duck/duck.html"
+function setRoute(idx) {
+    if(idx % 4 == 0) {
+       playBtn.href = "/duck/duck.html"
+    }else if(idx % 4 == 1){
+        playBtn.href = "/Mole/mole.html"
+    }else if(idx % 4 == 2){
+        playBtn.href = "/basketball/basketball.html"
+    }else {
+        playBtn.href = '/claw/claw.html'
+    }
+}
 
 nextBtn.addEventListener("click", () => {
+    
     currentIndex += 1
+    setRoute(currentIndex)
     let url = gameCovers[currentIndex % gameCovers.length]
     image1.setAttribute('href', url)
 
@@ -28,6 +41,7 @@ nextBtn.addEventListener("click", () => {
 
 prevBtn.addEventListener('click', () => {
     currentIndex -= 1;
+    setRoute(currentIndex)
     if(currentIndex < 0) {
         currentIndex = 3
     }
