@@ -12,6 +12,7 @@
 
         #score_list{
             color: yellow;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
     </style>
 </head>
@@ -28,7 +29,7 @@
 
 <script>
 
-    var board_x, board_y, board_v, ball_x, ball_y, ball_v, timeStep, score, left_limit, right_limit, padding_y, length_board, initial_speed, initial_board_speed, radius_ball, radius_board, precision, flag, number_iterations;
+    var board_x, board_y, board_v, ball_x, ball_y, ball_v, timeStep, score, left_limit, right_limit, padding_y, length_board, initial_speed, initial_board_speed, radius_ball, radius_board, precision, flag, number_iterations, game_started;
 
     function get_page_width(){
         return Math.max(document.documentElement["clientWidth"],document.body["scrollWidth"],document.documentElement["scrollWidth"],document.body["offsetWidth"],document.documentElement["offsetWidth"]);
@@ -54,6 +55,7 @@
         precision = 60; // Closeness parameter for scoring
         flag = false;
         number_iterations = 0;
+        game_started = false;
 
         board_x = right_limit/2;
         board_y = padding_y;
@@ -84,6 +86,10 @@
     }
 
     canvas.keyDownCallback = function(e){
+        if(game_started == false){
+            game_started = true;
+        }
+
         if(e.keyCode == 65){
             flag = true;
         }
@@ -121,7 +127,13 @@
                 flag = false;
                 number_iterations++;
             }
-            document.getElementById("score_list").innerHTML = "Your score is: " + score;
+
+            if(game_started == false){
+                document.getElementById("score_list").innerHTML = "Press A to shoot the ball. Points are awarded based on how close the ball lands. You have <b>10</b> tries. Good luck!";
+            }
+            else{
+                document.getElementById("score_list").innerHTML = "Your score is: " + score;
+            }
         }
 
     }
