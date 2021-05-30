@@ -10,10 +10,10 @@ const playBtn = document.querySelector('.play')
 
 //get image urls for games
 const gameCovers = [
-    "ReTron/assets/DUCKHUNT.png",
-    "ReTron/assets/whack.png",
-    "ReTron/assets/hops.png",
-    "ReTron/assets/clawed.png"
+    "assets/DUCKHUNT.png",
+    "assets/whack.png",
+    "assets/hops.png",
+    "assets/clawed.png"
 ]
 
 let currentIndex = 0;
