@@ -1,4 +1,4 @@
-## [Play it](https://mlh-hackcade.vercel.app/)
+## [Play it!](https://mlh-hackcade.vercel.app/)
 ### [Devpost](https://devpost.com/software/sharkade)
 
 ![Landing](https://user-images.githubusercontent.com/49470807/120106329-39832900-c17a-11eb-9d66-ba666513b0ad.png)
