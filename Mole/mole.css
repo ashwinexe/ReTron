@@ -53,8 +53,8 @@ h3 {
 }
 
 .mole {
-	background:url("Assets/mole.svg") bottom center no-repeat;
-	background-size: 40%;
+	background:url("Assets/tnr.png") bottom center no-repeat;
+	background-size: 80%;
 	position: absolute;
 	top: 80%;
 	width: 100%;
