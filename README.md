@@ -11,6 +11,7 @@ Until now.
 
 ## ⚙ What it does
 <img src="https://github.com/ashwinexe/ReTron/blob/main/assets/handjsss.jpg?raw=true">
+<img src="https://github.com/ashwinexe/ReTron/blob/main/assets/arduino.jpg?raw=true">
 Our project is an amalgamation of four classic arcade games, but with modern twists.  We have added classic and custom-built graphics to give them that retro feel. Also, dynamic scoring and posture detection by harnessing the power of machine learning add new, engaging elements to gameplay. This project is also hosted online, which makes it accessible to any gamer, anywhere.
 
 ## 🔧 How we built it
