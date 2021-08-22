@@ -7,6 +7,7 @@
     <title>Basketball Game</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <style>
         body{
             background-color: black;
@@ -98,6 +99,7 @@
 
         if(e.keyCode == 65){
             flag = true;
+            print_score();
         }
     }
 
@@ -126,6 +128,7 @@
 
             if(check_scored() == true){
                 score++;
+                print_score();
             }
 
             if(ball_y < 0){
@@ -147,6 +150,5 @@
     canvas.mainFunction = main;
     canvas.setupFunction = setup;
     canvas.startMain(timeStep);
-
-
 </script>
+<script type="text/javascript" src="output.js"></script>
